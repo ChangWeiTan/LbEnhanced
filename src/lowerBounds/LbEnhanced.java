@@ -22,11 +22,65 @@ import static java.lang.Math.min;
 
 /**
  * Code for the paper "Elastic bands across the path: A new framework and method to lower bound DTW"
- *
+ * <p>
  * Implementation of LbEnhanced
+ *
  * @author Chang Wei Tan, Francois Petitjean, Geoff Webb
  */
 public class LbEnhanced extends DTWLowerBound {
+    public double distance(final double[] a, final double[] b,
+                           final double[] U, final double[] L,
+                           final int w, final int v, final double cutOffValue) {
+        final int n = a.length;
+        final int m = b.length;
+        final int l = n - 1;
+        final int nBands = min(l / 2, v);
+        final int lastIndex = l - nBands;
+        final double d00 = a[0] - b[0];
+        final double dnm = a[n - 1] - b[m - 1];
+
+        int i, j, rightEnd, rightStart;
+        double minL, minR, tmp, aVal;
+
+        double res = d00 * d00 + dnm * dnm;
+
+        for (i = 1; i < nBands; i++) {
+            rightEnd = l - i;
+            minL = a[i] - b[i];
+            minL *= minL;
+            minR = a[rightEnd] - b[rightEnd];
+            minR *= minR;
+            for (j = max(0, i - w); j < i; j++) {
+                rightStart = l - j;
+                tmp = a[i] - b[j];
+                minL = min(minL, tmp * tmp);
+                tmp = a[j] - b[i];
+                minL = min(minL, tmp * tmp);
+
+                tmp = a[rightEnd] - b[rightStart];
+                minR = min(minR, tmp * tmp);
+                tmp = a[rightStart] - b[rightEnd];
+                minR = min(minR, tmp * tmp);
+            }
+            res += minL + minR;
+        }
+        if (res >= cutOffValue)
+            return Double.POSITIVE_INFINITY;
+
+        for (i = nBands; i <= lastIndex; i++) {
+            aVal = a[i];
+            if (aVal > U[i]) {
+                tmp = aVal - U[i];
+                res += tmp * tmp;
+            } else if (aVal < L[i]) {
+                tmp = L[i] - aVal;
+                res += tmp * tmp;
+            }
+        }
+
+        return res;
+    }
+
     public double distance(final Instance a, final Instance b,
                            final double[] U, final double[] L,
                            final int w, final int v, final double cutOffValue) {
