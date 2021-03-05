@@ -46,30 +46,30 @@ costM = inf*ones(n,n);
 % hold off
 % axis off
 
-% DTW
-fig=2;
-distDTW = drawDTW(fig, seriesA, seriesB, W, costM);
+% % DTW
+% fig=2;
+% distDTW = drawDTW(fig, seriesA, seriesB, W, costM);
 
 % LbKeogh
 fig=3;
 distKeogh = drawLbKeogh(fig, seriesA, seriesB, W, U, L);
 
-% LbImproved
-fig=4;
-distImproved = drawLbImproved(fig, seriesA, seriesB, W, U, L);
+% % LbImproved
+% fig=4;
+% distImproved = drawLbImproved(fig, seriesA, seriesB, W, U, L);
 
 % LbEnhanced
 fig=5;
 distEnhanced = drawLbEnhanced(fig, seriesA, seriesB, W, U, L, V);
 
-% LbKim
-fig=6;
-distKim = drawLbKim(fig, seriesA, seriesB);
+% % LbKim
+% fig=6;
+% distKim = drawLbKim(fig, seriesA, seriesB);
 
-% LbYi
-fig=7;
-distYi = drawLbYi(fig, seriesA, seriesB);
+% % LbYi
+% fig=7;
+% distYi = drawLbYi(fig, seriesA, seriesB);
 
-% LbNew
-fig=8;
-distNew = drawLbNew(fig, seriesA, seriesB, W, U, L);
+% % LbNew
+% fig=8;
+% distNew = drawLbNew(fig, seriesA, seriesB, W, U, L);

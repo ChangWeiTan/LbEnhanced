@@ -28,13 +28,20 @@ if distance > D
 else
     start = nBands+1;
     stop = n-nBands;
-    for i = start:stop
-        if seriesA(i) > Ub(i)
-            distance = distance + (seriesA(i)-Ub(i))^2; 
-        end
-        if seriesA(i) < Lb(i)
-            distance = distance + (seriesA(i)-Lb(i))^2;
-        end
-    end
+    
+%     for i = start:stop
+%         if seriesA(i) > Ub(i)
+%             distance = distance + (seriesA(i)-Ub(i))^2; 
+%         end
+%         if seriesA(i) < Lb(i)
+%             distance = distance + (seriesA(i)-Lb(i))^2;
+%         end
+%     end
+    
+    A = seriesA(start:stop);
+    U = Ub(start:stop);
+    L = Lb(start:stop);
+    lbKeogh = sum([[A > U].* [A - U]; [A < L].* [L - A]].^2);
+    distance = distance + lbKeogh;
 end
 end
